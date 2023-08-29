@@ -24,7 +24,7 @@ Background: movies have been added to database
 
 Scenario: restrict to movies with "PG" or "R" ratings
   When I check the following ratings: PG,R
-  And I check the following ratings: PG-13,G
+  And I uncheck the following ratings: PG-13,G
   And I press "Refresh"
   Then I should see the following movies: Amelie,Raiders of the Lost Ark,The Incredibles,The Terminator,When Harry Met Sally
   And I should not see the following movies: The Help,Chocolat,2001: A Space Odyssey,Chicken Run,Aladdin
