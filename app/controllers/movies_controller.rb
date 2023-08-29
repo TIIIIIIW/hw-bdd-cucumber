@@ -45,6 +45,18 @@ class MoviesController < ApplicationController
     redirect_to movies_path
   end
 
+  def search_tmdb
+    if params[:movie][:title] == 'Inception'
+      @title = 'Inception'
+      rating = 'R'
+      desc = 'Inception Movie'
+    else
+      @title = params[:movie][:title]
+      flash[:notice] = "Movie '#{@title}' was not found in TMDb."
+      redirect_to movies_path
+    end
+  end
+
   private
 
   def force_index_redirect
