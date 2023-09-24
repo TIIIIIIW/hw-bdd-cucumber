@@ -15,7 +15,7 @@
       <%- if current_moviegoer %>
         <td> 
           Current User: <%= current_moviegoer.full_name %>
-          <%= image_tag(current_moviegoer.avatar_url, class: 'user-avatar') %>
+          <%= image_tag(current_moviegoer.avatar_url) %>
           <%= button_to 'Logout',
             destroy_moviegoer_session_path,
             data: {turbo: "false"}, method: :delete %>
