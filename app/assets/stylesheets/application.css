@@ -13,3 +13,55 @@
  *= require_tree .
  *= require_self
  */
+
+ /* Avatar Navbar */
+ .navbar {
+    display: grid;
+    grid-template-columns: 1fr auto; /* 1 ส่วนที่ขยายตามขนาด, 1 ส่วนที่คงที่ (เนื้อหาของ current_moviegoer) */
+    align-items: center; /* จัดให้เนื้อหาอยู่ตรงกลางตามแนวตั้ง */
+  }
+  
+  .title {
+    grid-column: 1; /* ระบุให้ title อยู่ในส่วนที่ 1 */
+  }
+  
+  .user-info {
+    grid-column: 2; /* ระบุให้ user-info อยู่ในส่วนที่ 2 */
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* จัดให้เนื้อหาของ user-info ชิดขวา */
+  }
+  
+  .user-info img {
+    margin-left: 10px; /* ระยะห่างระหว่างรูปภาพกับข้อความ Current User */
+  }
+  
+   /* Page Movie Show css  */
+   .movie-image {
+      float: left; /* ให้รูปภาพอยู่ด้านซ้าย */
+      margin-right: 20px; /* เพื่อให้ข้อความขวาของรูปห่างจากรูป */
+      width: 250px;
+      height: 375px;
+  
+    }
+  
+    #details {
+      list-style-type: none; /* ไม่มี bullets ในรายการ */
+      padding: 0; /* ไม่มีระยะห่างในรายการ */
+    }
+  
+    #details li {
+      margin-bottom: 10px; /* ระยะห่างระหว่างรายการ */
+    }
+  
+    .details-container {
+      display: flex;
+  
+    }
+
+/* Review feature */
+@import url(http://fonts.googleapis.com/css?family=Calibri:400,300,700);body{font-family: 'Calibri', sans-serif !important}.mt-100{margin-top: 100px}.mb-100{margin-bottom:100px}.card{position: relative;display: -webkit-box;display: -ms-flexbox;display: flex;-webkit-box-orient: vertical;-webkit-box-direction: normal;-ms-flex-direction: column;flex-direction: column;min-width: 0;word-wrap: break-word;background-color: #fff;background-clip: border-box;border: 0px solid transparent;border-radius: 0px}.card-body{-webkit-box-flex: 1;-ms-flex: 1 1 auto;flex: 1 1 auto;padding: 1.25rem}.card .card-title{position: relative;font-weight: 600;margin-bottom: 10px}.comment-widgets{position: relative;margin-bottom: 10px}.comment-widgets .comment-row{border-bottom: 1px solid transparent;padding: 14px;display: -webkit-box;display: -ms-flexbox;display: flex;margin: 10px 0}.p-2{padding: 0.5rem !important}.comment-text{padding-left: 15px}.w-100{width: 100% !important}.m-b-15{margin-bottom: 15px}.btn-sm{padding: 0.25rem 0.5rem;font-size: 0.76563rem;line-height: 1.5;border-radius: 1px}.btn-cyan{color: #fff;background-color: #27a9e3;border-color: #27a9e3}.btn-cyan:hover{color: #fff;background-color: #1a93ca;border-color: #198bbe}.comment-widgets .comment-row:hover{background: rgba(0, 0, 0, 0.05)}
+  
+img.rounded {
+  border-radius: 100%;
+}

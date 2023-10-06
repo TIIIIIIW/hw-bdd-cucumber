@@ -1,0 +1,16 @@
+<h3> Edit Existing Review for <%= @movie.title %> </h3>
+
+<%= form_tag [@movie, @review], :method => :put do %>
+
+  <div class="form-group">
+  <%= label_tag 'review[potatoes]', 'How many potatoes:', class: 'col-form-label' %>
+  <%= select_tag 'review[potatoes]', options_for_select(1..5), class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <p>Write your comment</p>
+    <%= text_area :review, :comments, class: 'form-control'%>
+  </div>
+
+  <%= submit_tag 'Edit Review', :class => 'btn btn-success' %>
+<% end %>

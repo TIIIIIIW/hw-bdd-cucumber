@@ -12,14 +12,18 @@
     <%# These classes come from the Bootstrap CSS framework. %>
     <nav class="navbar navbar-expand-lg bg-primary text-white mb-3">
       <h1 class="title">Rotten Potatoes!</h1>
-      <%- if current_moviegoer %>
-        <td> 
-          Current User: <%= current_moviegoer.full_name %>
-          <%= image_tag(current_moviegoer.avatar_url) %>
-          <%= button_to 'Logout',
-            destroy_moviegoer_session_path,
-            data: {turbo: "false"}, method: :delete %>
-        </td>
+      <% if current_moviegoer.nil? %>
+        <div class="user-info">
+          <%= button_to 'Login', new_moviegoer_session_path, data: { turbo: "false" }, method: :get %>
+        </div>
+      <% end %>
+
+      <% if current_moviegoer %>
+        <div class="user-info">
+          <span>Current User: <%= current_moviegoer.email %></span>
+          <%= image_tag(current_moviegoer.avatar_url, class:"rounded-circle") %>
+          <%= button_to 'Logout', destroy_moviegoer_session_path, data: { turbo: "false" }, method: :delete %>
+        </div>
       <% end %>
     </nav>
     <div class="container">

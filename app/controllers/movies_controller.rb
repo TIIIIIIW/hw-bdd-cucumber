@@ -1,12 +1,16 @@
 Tmdb::Api.key(ENV["Tmdb_KEY"])
 
 class MoviesController < ApplicationController
-  before_action :force_index_redirect, only: [:index]
+
+  before_action :authenticate_moviegoer!, except: [:show, :index, :force_index_redirect]
 
   def show
     id = params[:id] # retrieve movie ID from URI route
     @movie = Movie.find(id) # look up movie by unique ID
     # will render app/views/movies/show.<extension> by default
+
+    @reviews = @movie.reviews
+    
   end
 
   def index
@@ -20,14 +24,23 @@ class MoviesController < ApplicationController
   end
 
   def new
-    @movie_name = params[:name]
+
+    @movie_title = params[:name]
     @movie_date = params[:date] || Date.today.strftime()
+    @movie_url = params[:url]
+    @movie_description = params[:description]
+
   end
 
   def create
-    @movie = Movie.create!(movie_params)
-    flash[:notice] = "#{@movie.title} was successfully created."
-    redirect_to movies_path
+    if Movie.where(title: params[:movie][:title] ).empty?
+      @movie = Movie.create!(movie_params)
+      flash[:notice] = "#{@movie.title} was successfully created."
+      redirect_to movies_path
+    else
+      flash[:notice] = "Movie '#{ params[:movie][:title] }' already exist."
+      redirect_to movies_path
+    end
   end
 
   def edit
@@ -49,18 +62,25 @@ class MoviesController < ApplicationController
   end
 
   def search_tmdb
+
     @movie_name = params[:movie][:title]
-    find_movie = Tmdb::Movie.find(@movie_name)
-    if !find_movie.empty?
-      movie = find_movie[0]
-      @title = movie.title
-      @release_date = movie.release_date
-      redirect_to new_movie_path(name:@title, date:@release_date)
-    else
-      @title = movie.title
-      flash[:notice] = "Movie '#{@title}' was found in TMDb."
-      redirect_to movies_path
-    end
+
+      find_movie = Tmdb::Movie.find(@movie_name)
+
+      if !find_movie.empty?
+        
+        movie = find_movie[0]
+        @release_date = movie.release_date
+        @name = movie.title
+        @url = "https://image.tmdb.org/t/p/w500" + movie.poster_path
+        @description = movie.overview
+        redirect_to new_movie_path( name:@name,date:@release_date,url:@url,description:@description )
+
+      else
+        flash[:notice] = "Movie '#{@movie_name}' not found."
+        redirect_to movies_path
+      end
+      
   end
 
   private
@@ -86,7 +106,7 @@ class MoviesController < ApplicationController
   end
 
   def movie_params
-    params.require(:movie).permit(:title, :rating, :release_date)
+    params.require(:movie).permit(:title, :rating, :description, :release_date, :url)
   end
 
 end

@@ -1,24 +1,77 @@
-<!--  app/views/movies/show.html.erb -->
-<h2>Details about <em><%= @movie.title %></em></h2>
+<div class="details-container">
+  <div class="movie-image">
+    <%= image_tag @movie.url, alt: @movie.title, width: '250', height: '375' %>
+  </div>
+  <ul id="details">
+    <li>
+    <h2>Details about <em><%= @movie.title %></em></h2>
+    </li>
+    <li>
+      Rating:
+      <%= @movie.rating %>
+    </li>
+    <li>
+      Released on:
+      <%= @movie.release_date.strftime("%B %d, %Y") %>
+    </li>
+    <li>
+    <h3>Description:</h3>  
+    <%= @movie.description %>
+    </li>
+  </ul>
+</div>
 
-<ul id="details">
-  <li>
-    Rating:
-    <%= @movie.rating %>
-  </li>
-  <li>
-    Released on:
-    <%= @movie.release_date.strftime("%B %d, %Y") %>
-  </li>
-</ul>
-
-<h3>Description:</h3>
-<p id="description">
-  <%= @movie.description %>
-</p>
-
+<br/>
 <div class="row">
   <%= link_to 'Edit', edit_movie_path(@movie), class: 'btn btn-primary col-2' %>
   <%= link_to 'Delete', movie_path(@movie), 'data-method': 'delete', 'data-confirm': 'Are you sure?', class: 'btn btn-danger col-2' %>
   <%= link_to 'Back to movie list', movies_path, class: 'btn btn-primary col-2' %>
+</div>
+<br/>
+
+<h3> New Review for <%= @movie.title %> </h3>
+<%= form_tag movie_reviews_path(@movie), class: 'form' do %>
+  <div class="form-group">
+  <%= label_tag 'review[potatoes]', 'How many potatoes:', class: 'col-form-label' %>
+  <%= select_tag 'review[potatoes]', options_for_select(1..5), class: 'form-control' %>
+  </div>
+  <div class="form-group">
+    <p>Write your comment</p>
+    <%= text_area :review, :comments, class: 'form-control'%>
+  </div>
+  <%= submit_tag 'Create Review', :class => 'btn btn-success' %>
+<% end %>
+<br/>
+
+<div class="row d-flex justify-content-center mt-100 mb-100">
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body text-center">
+                <h4 class="card-title">Latest Comments</h4>
+            </div>
+		          <% @reviews.each do |review| %>
+            <div class="comment-widgets">
+                <!-- Comment Row -->
+                <div class="d-flex flex-row comment-row m-t-0 ">
+                    <div class="p-2"><%= image_tag(review.moviegoer.avatar_url, class:"rounded-circle" ) %></div>
+                    <div class="comment-text w-100">
+
+                        <h6 class="font-medium"> <%= review.moviegoer.email %></h6><span class="m-b-15 d-block">Rating: <%= review.potatoes %> </span> <span class="m-b-15 d-block">Comment: <%= review.comments %> </span>
+                        <div class="comment-footer"> <span class="text-muted float-right"></span> 
+                        
+                        </div>
+                    </div>
+                </div>
+                <% if !current_moviegoer.nil? %>
+                <% if current_moviegoer.email == review.moviegoer.email %>
+
+                <%= link_to 'Delete', movie_review_path(@movie, review), 'data-method': 'delete', 'data-confirm': 'Are you sure?', class: 'btn btn-danger col-2' %>
+                <%= link_to 'Edit', edit_movie_review_path(@movie, review), class: 'btn btn-primary col-2' %>
+                <% end %>
+              <% end %>
+	  	<% end %>
+            </div>
+        </div>
+    </div>
+</div>
 </div>
